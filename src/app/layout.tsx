@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "🔥 CSI ANOMALI 🔥 - Road to MPL (Mobile Legends Plenger League) 🤡🎮",
+  title: "CSI ANOMALI // [RESTRICTED .ONION GATEWAY] - Road to MPL",
   description:
-    "Official Website Squad MLBB Ter-Anomali Sedunia! Lose streak 38x, Retri Indomaret, Fanny Nabrak Tembok, Full Komedi Just for Fun!",
+    "Classified darknet dossier & surveillance gateway for CSI Anomali Squad MLBB. Road to MPL (Mobile Legends Plenger League). Threat level: Maximum Feeder.",
 };
 
 export default function RootLayout({
@@ -13,14 +13,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
+    <html lang="id" className="dark bg-[#030708]">
       <head>
         <link
           rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤡</text></svg>"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧅</text></svg>"
         />
       </head>
-      <body className="min-h-screen bg-[#FFFF00] text-black selection:bg-[#FF00FF] selection:text-[#00FF00]">
+      <body className="min-h-screen bg-[#030708] text-[#00ff66] antialiased selection:bg-[#ff003c] selection:text-white">
+        {/* CRT Scanline Overlay across entire viewport */}
+        <div className="fixed inset-0 scanlines pointer-events-none z-50 opacity-70" />
         {children}
       </body>
     </html>
