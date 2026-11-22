@@ -84,7 +84,6 @@ export default function Home() {
             onClick={() => setShowEasterEgg(true)}
             className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3 py-1 transition-all shadow-xs cursor-pointer"
           >
-            <span>✨</span>
             <span>Jangan diklik</span>
           </button>
         </div>
