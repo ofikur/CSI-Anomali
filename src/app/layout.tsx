@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "#csianomali",
-  description: "CSI Anomali",
+  title: "#csianomali | Discord",
+  description: "Komunitas Resmi Discord CSI Anomali",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className="min-h-screen bg-white text-black flex items-center justify-center">
+      <body className="min-h-screen bg-zinc-50 text-zinc-900 antialiased">
         {children}
       </body>
     </html>
