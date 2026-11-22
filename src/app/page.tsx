@@ -7,7 +7,7 @@ import { ExternalLink, X } from "lucide-react";
 export default function Home() {
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [activePart, setActivePart] = useState<"csi" | "anomali">("csi");
-  const [boxStyle, setBoxStyle] = useState({ left: 0, width: 0 });
+  const [boxStyle, setBoxStyle] = useState({ left: 0, width: 0, top: 0, height: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const csiRef = useRef<HTMLSpanElement>(null);
@@ -24,16 +24,17 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Update posisi dan lebar kotak pembungkus
+  // Update posisi dan ukuran kotak yang menyorot kata tanpa mengubah jarak teks
   const updateBoxPosition = (part: "csi" | "anomali") => {
     const target = part === "csi" ? csiRef.current : anomaliRef.current;
-    const container = containerRef.current;
-    if (target && container) {
-      const targetRect = target.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
+    if (target) {
+      const padX = 6;
+      const padY = 4;
       setBoxStyle({
-        left: targetRect.left - containerRect.left,
-        width: targetRect.width,
+        left: target.offsetLeft - padX,
+        width: target.offsetWidth + padX * 2,
+        top: target.offsetTop - padY,
+        height: target.offsetHeight + padY * 2,
       });
     }
   };
@@ -69,49 +70,45 @@ export default function Home() {
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-50 px-4 py-12 text-zinc-900 selection:bg-indigo-100 selection:text-indigo-900">
       <div className="w-full max-w-sm flex flex-col items-center text-center space-y-6">
-        {/* Title H1 dengan Kotak Animasi Berpindah Kiri-Kanan */}
-        <h1 className="select-none flex items-center justify-center">
+        {/* Title H1 Tanpa Border & Teks Rapet Kayak Biasanya */}
+        <h1 className="select-none flex items-center justify-center py-2">
           <div
             ref={containerRef}
-            className="relative inline-flex items-center p-1.5 rounded-2xl bg-white border border-zinc-200/90 shadow-xs"
+            className="relative inline-flex items-center text-4xl sm:text-5xl font-black tracking-tight"
           >
-            {/* Kotak yang berpindah dan berganti warna */}
+            {/* Kotak animasi yang berpindah kiri-kanan & berganti warna */}
             <div
               style={{
                 transform: `translateX(${boxStyle.left}px)`,
                 width: `${boxStyle.width}px`,
+                height: `${boxStyle.height}px`,
+                top: `${boxStyle.top}px`,
               }}
-              className={`absolute top-1.5 bottom-1.5 left-0 rounded-xl transition-all duration-500 ease-in-out shadow-sm pointer-events-none ${
-                activePart === "csi"
-                  ? "bg-zinc-900"
-                  : "bg-[#5865F2]"
+              className={`absolute left-0 rounded-xl transition-all duration-500 ease-in-out pointer-events-none shadow-sm ${
+                activePart === "csi" ? "bg-zinc-900" : "bg-[#5865F2]"
               } ${boxStyle.width === 0 ? "opacity-0" : "opacity-100"}`}
             />
 
-            {/* Bagian #csi */}
+            {/* Bagian #csi (rapat tanpa padding pembatas) */}
             <span
               ref={csiRef}
               onClick={() => setActivePart("csi")}
-              className={`relative z-10 px-3.5 py-1.5 text-3xl sm:text-4xl font-black tracking-tight transition-colors duration-500 cursor-pointer ${
-                activePart === "csi"
-                  ? "text-white"
-                  : "text-zinc-400 hover:text-zinc-600"
+              className={`relative z-10 transition-colors duration-500 cursor-pointer select-none ${
+                activePart === "csi" ? "text-white" : "text-zinc-900 hover:text-black"
               }`}
             >
-              <span className={activePart === "csi" ? "text-indigo-400" : "text-zinc-300"}>
+              <span className={activePart === "csi" ? "text-indigo-400" : "text-zinc-400"}>
                 #
               </span>
               csi
             </span>
 
-            {/* Bagian anomali */}
+            {/* Bagian anomali (rapat berdampingan langsung dengan csi) */}
             <span
               ref={anomaliRef}
               onClick={() => setActivePart("anomali")}
-              className={`relative z-10 px-4 py-1.5 text-3xl sm:text-4xl font-black tracking-tight transition-colors duration-500 cursor-pointer ${
-                activePart === "anomali"
-                  ? "text-white"
-                  : "text-zinc-400 hover:text-zinc-600"
+              className={`relative z-10 transition-colors duration-500 cursor-pointer select-none ${
+                activePart === "anomali" ? "text-white" : "text-zinc-900 hover:text-black"
               }`}
             >
               anomali
