@@ -116,21 +116,23 @@ export default function Home() {
           </div>
         </h1>
 
-        {/* Discord Card - Styled like an authentic Discord Server Widget */}
-        <div className="relative overflow-hidden w-full bg-[#2B2D31] rounded-2xl border border-zinc-800/80 p-6 shadow-md hover:shadow-lg transition-all duration-200 text-left">
-          {/* Background Image CSI dengan Opacity Pas */}
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none"
-            style={{ backgroundImage: "url('/csi-bg.png')" }}
+        {/* Discord Card - Clean & Simple with CSI Background */}
+        <div className="w-full relative overflow-hidden rounded-2xl bg-zinc-950 border border-zinc-800 p-6 shadow-md hover:shadow-xl transition-all duration-300 group">
+          {/* Background Image: Rata kiri, full card */}
+          <img
+            src="/csi-bg.png"
+            alt="CSI Background"
+            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-80 group-hover:scale-105 transition-transform duration-500"
           />
-          {/* Overlay Gradient Halus agar Konten Tetap Kontras & Rapi */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2B2D31]/95 via-[#2B2D31]/80 to-[#2B2D31]/75 pointer-events-none" />
 
-          {/* Konten Card */}
+          {/* Gradient ke kanan card */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-zinc-950/70 to-zinc-950 pointer-events-none" />
+
+          {/* Konten Card (relative z-10) */}
           <div className="relative z-10">
             <div className="flex items-center space-x-4 mb-5">
               {/* Discord Icon */}
-              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-sm">
+              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-md">
                 <svg
                   className="w-7 h-7"
                   viewBox="0 0 127.14 96.36"
@@ -143,11 +145,11 @@ export default function Home() {
 
               {/* Server Info */}
               <div className="text-left overflow-hidden">
-                <h2 className="text-base font-semibold text-white truncate">
+                <h2 className="text-base font-semibold text-white truncate drop-shadow-xs">
                   CSI Anomali
                 </h2>
                 <div className="flex items-center space-x-1.5 text-xs text-zinc-300 mt-0.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-[0_0_6px_#10b981]"></span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
                   <span>Komunitas Resmi</span>
                 </div>
               </div>
@@ -186,10 +188,10 @@ export default function Home() {
             <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
           </Link>
 
-          {/* Tombol Easter Egg Simple */}
+          {/* Tombol Easter Egg Simple (tanpa ikon ✨) */}
           <button
             onClick={() => setShowEasterEgg(true)}
-            className="inline-flex items-center text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3 py-1 transition-all shadow-xs cursor-pointer"
+            className="inline-flex items-center text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3.5 py-1 transition-all shadow-xs cursor-pointer"
           >
             <span>Jangan diklik</span>
           </button>
