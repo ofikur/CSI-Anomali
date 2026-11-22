@@ -116,43 +116,54 @@ export default function Home() {
           </div>
         </h1>
 
-        {/* Discord Card - Clean & Simple */}
-        <div className="w-full bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center space-x-4 mb-5">
-            {/* Discord Icon */}
-            <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-sm">
-              <svg
-                className="w-7 h-7"
-                viewBox="0 0 127.14 96.36"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" />
-              </svg>
-            </div>
+        {/* Discord Card - Styled like an authentic Discord Server Widget */}
+        <div className="relative overflow-hidden w-full bg-[#2B2D31] rounded-2xl border border-zinc-800/80 p-6 shadow-md hover:shadow-lg transition-all duration-200 text-left">
+          {/* Background Image CSI dengan Opacity Pas */}
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none"
+            style={{ backgroundImage: "url('/csi-bg.png')" }}
+          />
+          {/* Overlay Gradient Halus agar Konten Tetap Kontras & Rapi */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2B2D31]/95 via-[#2B2D31]/80 to-[#2B2D31]/75 pointer-events-none" />
 
-            {/* Server Info */}
-            <div className="text-left overflow-hidden">
-              <h2 className="text-base font-semibold text-zinc-900 truncate">
-                CSI Anomali
-              </h2>
-              <div className="flex items-center space-x-1.5 text-xs text-zinc-500 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
-                <span>Komunitas Resmi</span>
+          {/* Konten Card */}
+          <div className="relative z-10">
+            <div className="flex items-center space-x-4 mb-5">
+              {/* Discord Icon */}
+              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-sm">
+                <svg
+                  className="w-7 h-7"
+                  viewBox="0 0 127.14 96.36"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" />
+                </svg>
+              </div>
+
+              {/* Server Info */}
+              <div className="text-left overflow-hidden">
+                <h2 className="text-base font-semibold text-white truncate">
+                  CSI Anomali
+                </h2>
+                <div className="flex items-center space-x-1.5 text-xs text-zinc-300 mt-0.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-[0_0_6px_#10b981]"></span>
+                  <span>Komunitas Resmi</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Join Button */}
-          <Link
-            href={discordInviteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-medium text-sm py-2.5 px-4 transition-colors duration-150 shadow-sm"
-          >
-            <span>Join Discord</span>
-            <ExternalLink className="w-4 h-4 opacity-90" />
-          </Link>
+            {/* Join Button */}
+            <Link
+              href={discordInviteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-medium text-sm py-2.5 px-4 transition-colors duration-150 shadow-sm"
+            >
+              <span>Join Discord</span>
+              <ExternalLink className="w-4 h-4 opacity-90" />
+            </Link>
+          </div>
         </div>
 
         {/* Footer Note, Part of Code Squads Informatics & Tombol Easter Egg Simple */}
@@ -178,9 +189,8 @@ export default function Home() {
           {/* Tombol Easter Egg Simple */}
           <button
             onClick={() => setShowEasterEgg(true)}
-            className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3 py-1 transition-all shadow-xs cursor-pointer"
+            className="inline-flex items-center text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3 py-1 transition-all shadow-xs cursor-pointer"
           >
-            <span>✨</span>
             <span>Jangan diklik</span>
           </button>
         </div>
