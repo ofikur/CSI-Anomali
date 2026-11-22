@@ -117,22 +117,22 @@ export default function Home() {
         </h1>
 
         {/* Discord Card - Clean & Simple with CSI Background */}
-        <div className="w-full relative overflow-hidden rounded-2xl bg-zinc-950 border border-zinc-800 p-6 shadow-md hover:shadow-xl transition-all duration-300 group">
-          {/* Background Image: Rata kiri, full card */}
+        <div className="w-full relative overflow-hidden rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
+          {/* Background Image: Lebih ke kiri tapi tetap full card */}
           <img
             src="/csi-bg.png"
             alt="CSI Background"
-            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-80 group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-y-0 left-0 w-[135%] h-full max-w-none object-cover object-left -translate-x-16 pointer-events-none opacity-90 group-hover:scale-105 transition-transform duration-500"
           />
 
-          {/* Gradient ke kanan card */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-zinc-950/70 to-zinc-950 pointer-events-none" />
+          {/* Gradient putih ke kanan card */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-white pointer-events-none" />
 
           {/* Konten Card (relative z-10) */}
           <div className="relative z-10">
             <div className="flex items-center space-x-4 mb-5">
               {/* Discord Icon */}
-              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-md">
+              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-sm">
                 <svg
                   className="w-7 h-7"
                   viewBox="0 0 127.14 96.36"
@@ -145,10 +145,10 @@ export default function Home() {
 
               {/* Server Info */}
               <div className="text-left overflow-hidden">
-                <h2 className="text-base font-semibold text-white truncate drop-shadow-xs">
+                <h2 className="text-base font-semibold text-zinc-900 truncate">
                   CSI Anomali
                 </h2>
-                <div className="flex items-center space-x-1.5 text-xs text-zinc-300 mt-0.5">
+                <div className="flex items-center space-x-1.5 text-xs text-zinc-500 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
                   <span>Komunitas Resmi</span>
                 </div>
