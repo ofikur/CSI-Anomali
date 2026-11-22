@@ -60,7 +60,6 @@ class SoundEngine {
       osc.type = "sawtooth";
       osc.frequency.setValueAtTime(freq, current);
       if (idx === 3) {
-        // Bend pitch down for final waaaah
         osc.frequency.linearRampToValueAtTime(200, current + durations[idx]);
       }
 
@@ -156,7 +155,6 @@ class SoundEngine {
     const ctx = this.getContext();
     if (!ctx) return;
 
-    // A intentionally out of tune fanfare
     const notes = [261, 329, 392, 523, 493, 587, 659];
     let now = ctx.currentTime;
 
@@ -199,7 +197,6 @@ class SoundEngine {
     this.stopBgm();
     this.isBgmPlaying = true;
 
-    // Goofy Indonesian meme / Tetris / Dangdut style 8-bit riff
     const melody = [
       330, 0, 330, 349, 392, 0, 392, 349, 330, 294, 261, 0, 261, 294, 330, 0,
       330, 294, 294, 0, 330, 0, 330, 349, 392, 0, 392, 349, 330, 294, 261, 0
@@ -219,7 +216,6 @@ class SoundEngine {
         osc.type = "triangle";
         osc.frequency.setValueAtTime(freq, now);
 
-        // Bass accompaniment
         const bassOsc = this.ctx.createOscillator();
         const bassGain = this.ctx.createGain();
         bassOsc.type = "sawtooth";
@@ -254,6 +250,85 @@ class SoundEngine {
 
   public getIsBgmPlaying() {
     return this.isBgmPlaying;
+  }
+
+  // 8. Cartoon Paper Tear / Rip Sound
+  public playPaperRip() {
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const bufferSize = Math.floor(ctx.sampleRate * 0.22);
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.12));
+    }
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(3200, ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.22);
+    filter.Q.value = 2.5;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.35, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.22);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    noise.start();
+  }
+
+  // 9. Cartoon Tape Snap / Plop Sound
+  public playTapeFix() {
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(650, now);
+    osc.frequency.exponentialRampToValueAtTime(220, now + 0.12);
+
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.12);
+  }
+
+  // 10. Cartoon Crease / Tap Poke Sound
+  public playTapPoke(pitch: number = 400) {
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(pitch, now);
+    osc.frequency.exponentialRampToValueAtTime(pitch * 1.5, now + 0.06);
+
+    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.06);
   }
 }
 

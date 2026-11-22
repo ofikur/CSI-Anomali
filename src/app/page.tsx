@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ExternalLink, X } from "lucide-react";
+import TornDiscordCard from "@/components/TornDiscordCard";
 
 export default function Home() {
   const [showEasterEgg, setShowEasterEgg] = useState(false);
@@ -116,66 +117,8 @@ export default function Home() {
           </div>
         </h1>
 
-        {/* Discord Card - Clean & Simple with CSI Background & Frosted Glass Gradient */}
-        <div className="w-full relative overflow-hidden rounded-2xl bg-white/70 border border-zinc-200/90 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
-          {/* Background Image: Rata kiri, full card */}
-          <img
-            src="/csi-bg.png"
-            alt="CSI Background"
-            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-90 group-hover:scale-105 transition-transform duration-500"
-          />
-
-          {/* Base gradient putih ke kanan - pekat di area teks */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent from-5% via-white/85 via-35% to-white pointer-events-none" />
-
-          {/* Frosted Glass Layer dengan progressive backdrop blur ke arah kanan card */}
-          <div
-            className="absolute inset-0 backdrop-blur-md bg-gradient-to-r from-white/20 via-white/70 via-35% to-white/95 pointer-events-none"
-            style={{
-              maskImage: "linear-gradient(to right, transparent 5%, black 35%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 5%, black 35%)",
-            }}
-          />
-
-          {/* Konten Card (relative z-10) */}
-          <div className="relative z-10">
-            <div className="flex items-center space-x-4 mb-5">
-              {/* Discord Icon */}
-              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-md">
-                <svg
-                  className="w-7 h-7"
-                  viewBox="0 0 127.14 96.36"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" />
-                </svg>
-              </div>
-
-              {/* Server Info - High Contrast & Jelas */}
-              <div className="text-left overflow-hidden">
-                <h2 className="text-base sm:text-lg font-bold text-zinc-950 truncate tracking-tight drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
-                  CSI Anomali
-                </h2>
-                <div className="flex items-center space-x-1.5 text-xs text-zinc-700 font-semibold mt-0.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)]">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
-                  <span>Komunitas Resmi</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Join Button */}
-            <Link
-              href={discordInviteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-medium text-sm py-2.5 px-4 transition-colors duration-150 shadow-sm"
-            >
-              <span>Join Discord</span>
-              <ExternalLink className="w-4 h-4 opacity-90" />
-            </Link>
-          </div>
-        </div>
+        {/* Discord Card dengan Animasi Sobek Kartun Interaktif */}
+        <TornDiscordCard discordInviteUrl={discordInviteUrl} />
 
         {/* Footer Note, Part of Code Squads Informatics & Tombol Easter Egg Simple */}
         <div className="flex flex-col items-center space-y-3 pt-1">
