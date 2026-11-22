@@ -8,17 +8,32 @@ import { sounds } from "@/lib/soundEffects";
 interface TornDiscordCardProps {
   discordInviteUrl: string;
   onOpenVideo?: () => void;
+  onTriggerPredator?: () => void;
 }
 
 export default function TornDiscordCard({
   discordInviteUrl,
   onOpenVideo,
+  onTriggerPredator,
 }: TornDiscordCardProps) {
   const [tapCount, setTapCount] = useState(0);
   const [isTorn, setIsTorn] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   const [isJittering, setIsJittering] = useState(false);
   const [showTape, setShowTape] = useState(false);
+  const lastLogoTapRef = React.useRef<number>(0);
+
+  // Tangani klik 2x pada logo Discord untuk memunculkan Predator
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const now = Date.now();
+    if (now - lastLogoTapRef.current < 450) {
+      lastLogoTapRef.current = 0;
+      onTriggerPredator?.();
+    } else {
+      lastLogoTapRef.current = now;
+    }
+  };
 
   // Reset tap count jika tidak ditap lagi dalam 2 detik
   useEffect(() => {
@@ -105,8 +120,16 @@ export default function TornDiscordCard({
       {/* Konten Card (relative z-10) */}
       <div className="relative z-10">
         <div className="flex items-center space-x-4 mb-5">
-          {/* Discord Icon */}
-          <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-sm">
+          {/* Discord Icon (Klik 2x untuk memanggil Karakter Pemakan) */}
+          <div
+            onClick={handleLogoClick}
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              onTriggerPredator?.();
+            }}
+            title="Klik 2x"
+            className="w-12 h-12 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] flex items-center justify-center text-white shrink-0 shadow-sm cursor-pointer transition-transform active:scale-90 select-none"
+          >
             <svg
               className="w-7 h-7"
               viewBox="0 0 127.14 96.36"

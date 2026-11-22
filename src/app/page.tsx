@@ -5,10 +5,18 @@ import Link from "next/link";
 import { ExternalLink, X } from "lucide-react";
 import TornDiscordCard from "@/components/TornDiscordCard";
 import AnomalyCharacter from "@/components/AnomalyCharacter";
+import AnomalyPredator from "@/components/AnomalyPredator";
 
 export default function Home() {
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const [anomalies, setAnomalies] = useState<{ id: number; variantIndex: number }[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isPredatorActive, setIsPredatorActive] = useState(false);
+  const [devouringTarget, setDevouringTarget] = useState<{
+    id: number;
+    mouthX: number;
+    mouthY: number;
+  } | null>(null);
   const [activePart, setActivePart] = useState<"csi" | "anomali">("csi");
   const [boxStyle, setBoxStyle] = useState({ left: 0, width: 0, top: 0, height: 0 });
 
@@ -18,6 +26,32 @@ export default function Home() {
 
   // Link invite Discord resmi CSI Anomali
   const discordInviteUrl = "https://discord.gg/abqKgDxBY";
+
+  // Muat status anomali dari localStorage agar tetap ada saat di-refresh
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("csi_anomalies");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAnomalies(parsed.slice(0, 7));
+        }
+      }
+    } catch {
+      // Abaikan error parsing / storage
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Simpan perubahan anomali ke localStorage
+  useEffect(() => {
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem("csi_anomalies", JSON.stringify(anomalies));
+    } catch {
+      // Abaikan error storage
+    }
+  }, [anomalies, isLoaded]);
 
   // Animasi otomatis berpindah kiri (csi) dan kanan (anomali) terus gantian
   useEffect(() => {
@@ -134,10 +168,11 @@ export default function Home() {
           </div>
         </h1>
 
-        {/* Discord Card dengan Animasi Sobek Kartun Interaktif */}
+        {/* Discord Card dengan Animasi Sobek Kartun Interaktif & Easter Egg Logo Klik 2x */}
         <TornDiscordCard
           discordInviteUrl={discordInviteUrl}
           onOpenVideo={() => setActiveVideoId("WxC7v3q9AQg")}
+          onTriggerPredator={() => setIsPredatorActive(true)}
         />
 
         {/* Footer Note, Part of Code Squads Informatics & Tombol Easter Egg Simple */}
@@ -172,8 +207,35 @@ export default function Home() {
 
       {/* Kumpulan Karakter Anomali 2D yang Berjalan Keliling Layar (Maksimal 7 Karakter Unik) */}
       {anomalies.map((a) => (
-        <AnomalyCharacter key={a.id} variantIndex={a.variantIndex} />
+        <AnomalyCharacter
+          key={a.id}
+          id={a.id}
+          variantIndex={a.variantIndex}
+          devourTarget={
+            devouringTarget && devouringTarget.id === a.id
+              ? { mouthX: devouringTarget.mouthX, mouthY: devouringTarget.mouthY }
+              : null
+          }
+        />
       ))}
+
+      {/* Karakter Pemakan (Predator Anomali 2x Lebih Besar yang Memangsa Anomali) */}
+      {isPredatorActive && (
+        <AnomalyPredator
+          anomalies={anomalies}
+          onDevourStart={(id, mouthPos) =>
+            setDevouringTarget({ id, mouthX: mouthPos.mouthX, mouthY: mouthPos.mouthY })
+          }
+          onDevourComplete={(id) => {
+            setAnomalies((prev) => prev.filter((a) => a.id !== id));
+            setDevouringTarget(null);
+          }}
+          onFinish={() => {
+            setIsPredatorActive(false);
+            setDevouringTarget(null);
+          }}
+        />
+      )}
 
       {/* Fullscreen Video Easter Egg (Bersih & Loop Berulang) */}
       {activeVideoId && (

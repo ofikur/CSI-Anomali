@@ -102,10 +102,16 @@ const VARIANTS: AnomalyVariant[] = [
 ];
 
 interface AnomalyCharacterProps {
+  id?: number;
   variantIndex?: number;
+  devourTarget?: { mouthX: number; mouthY: number } | null;
 }
 
-export default function AnomalyCharacter({ variantIndex = 0 }: AnomalyCharacterProps) {
+export default function AnomalyCharacter({
+  id,
+  variantIndex = 0,
+  devourTarget = null,
+}: AnomalyCharacterProps) {
   const v = VARIANTS[variantIndex % VARIANTS.length];
 
   const [pos, setPos] = useState({ x: 100, y: 150 });
@@ -155,6 +161,11 @@ export default function AnomalyCharacter({ variantIndex = 0 }: AnomalyCharacterP
 
   // Loop pergerakan karakter berjalan mulus berkeliling layar (60fps)
   useEffect(() => {
+    if (devourTarget) {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      return;
+    }
+
     let isIdle = false;
     let idleTimer: any = null;
 
@@ -266,11 +277,24 @@ export default function AnomalyCharacter({ variantIndex = 0 }: AnomalyCharacterP
 
   return (
     <div
+      id={id !== undefined ? `anomaly-${id}` : undefined}
+      data-anomaly-id={id}
       style={{
-        transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`,
-        transition: isJumping ? "transform 0.2s ease-out" : "none",
+        transform: devourTarget
+          ? `translate3d(${devourTarget.mouthX - 32}px, ${devourTarget.mouthY - 40}px, 0) scale(0.05) rotate(${
+              direction === 1 ? 40 : -40
+            }deg)`
+          : `translate3d(${pos.x}px, ${pos.y}px, 0)`,
+        opacity: devourTarget ? 0 : 1,
+        transition: devourTarget
+          ? "transform 0.35s cubic-bezier(0.2, 0.8, 0.4, 1), opacity 0.3s ease-in"
+          : isJumping
+          ? "transform 0.2s ease-out"
+          : "none",
       }}
-      className="fixed top-0 left-0 z-40 select-none pointer-events-auto cursor-pointer"
+      className={`anomaly-entity fixed top-0 left-0 z-40 select-none pointer-events-auto cursor-pointer ${
+        devourTarget ? "pointer-events-none" : ""
+      }`}
       onClick={handleCharacterClick}
     >
       <div
