@@ -13,7 +13,7 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
   const [tapCount, setTapCount] = useState(0);
   const [isTorn, setIsTorn] = useState(false);
   const [isJittering, setIsJittering] = useState(false);
-  const [showPlester, setShowPlester] = useState(false);
+  const [showTape, setShowTape] = useState(false);
 
   // Reset tap count jika tidak ditap lagi dalam 2 detik
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
     }
   }, [tapCount, isTorn]);
 
-  // Tangani tap berturut-turut pada card
+  // Tangani tap berturut-turut pada card sebagai easter egg
   const handleCardTap = () => {
     if (isTorn) {
       handleFixCard();
@@ -34,10 +34,9 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
 
     const nextCount = tapCount + 1;
     setIsJittering(true);
-    setTimeout(() => setIsJittering(false), 220);
+    setTimeout(() => setIsJittering(false), 200);
 
     if (nextCount >= 3) {
-      // Tap ke-3: SOBEK KARTUN!
       sounds.playPaperRip();
       setIsTorn(true);
       setTapCount(0);
@@ -50,17 +49,17 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
     }
   };
 
-  // Tempel plester kartun & pulihkan card
+  // Pulihkan card kembali utuh
   const handleFixCard = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     sounds.playTapeFix();
-    setShowPlester(true);
+    setShowTape(true);
     setIsTorn(false);
     setTapCount(0);
 
     setTimeout(() => {
-      setShowPlester(false);
-    }, 2200);
+      setShowTape(false);
+    }, 1500);
   };
 
   // Polygon koordinat sobekan kartun zigzag
@@ -69,7 +68,7 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
   const clipBottom =
     "polygon(0% 52%, 8% 48%, 16% 54%, 24% 47%, 32% 55%, 41% 48%, 50% 53%, 59% 47%, 68% 55%, 76% 48%, 84% 54%, 92% 47%, 100% 51%, 100% 100%, 0% 100%)";
 
-  // Template konten isi card agar identik di kedua layer sobekan
+  // Template konten card
   const renderCardContent = () => (
     <div className="w-full relative rounded-2xl bg-white/70 border border-zinc-200/90 p-6 shadow-sm overflow-hidden select-none">
       {/* Background Image: Rata kiri, full card */}
@@ -137,33 +136,25 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
 
   return (
     <div className="w-full relative select-none">
-      {/* Container Utuh Card dengan Animasi Sobek */}
+      {/* Container Card */}
       <div
         onClick={handleCardTap}
         className={`w-full relative cursor-pointer transition-transform duration-300 ${
           isJittering
             ? tapCount === 1
-              ? "scale-[0.98] rotate-[-1.5deg]"
-              : "scale-[0.96] rotate-[2.5deg]"
+              ? "scale-[0.99] rotate-[-1deg]"
+              : "scale-[0.97] rotate-[1.5deg]"
             : "hover:scale-[1.01]"
         }`}
       >
-        {/* Layer Belakang (Terungkap Saat Card Sobek) */}
+        {/* Area Belakang (Hanya Tombol Pulihkan Bersih Saat Sobek) */}
         {isTorn && (
-          <div className="absolute inset-0 z-0 flex flex-col items-center justify-center p-4 bg-amber-50/90 border-2 border-dashed border-amber-300 rounded-2xl shadow-inner animate-in fade-in zoom-in-95 duration-300 text-center">
-            <span className="text-2xl animate-bounce">🩹</span>
-            <p className="text-xs font-black text-amber-900 uppercase tracking-tight mt-1">
-              WADUH KEBABLASAN SOBEK!
-            </p>
-            <p className="text-[11px] text-amber-700 font-medium mb-3">
-              Kebanyakan ditap-tap sampai robek jadi dua!
-            </p>
+          <div className="absolute inset-0 z-0 flex items-center justify-center p-4">
             <button
               onClick={handleFixCard}
-              className="px-4 py-1.5 rounded-full bg-amber-400 hover:bg-amber-500 text-zinc-950 font-black text-xs shadow-md border border-amber-500/50 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+              className="px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-md transition-all active:scale-95 cursor-pointer"
             >
-              <span>🩹</span>
-              <span>Tempel Plester (Perbaiki)</span>
+              Satukan kembali
             </button>
           </div>
         )}
@@ -173,11 +164,11 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
           style={{
             clipPath: clipTop,
             transform: isTorn
-              ? "translate3d(-4px, -32px, 0) rotate(-6deg)"
+              ? "translate3d(-4px, -28px, 0) rotate(-5deg)"
               : "translate3d(0, 0, 0) rotate(0deg)",
             transition: "transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1)",
           }}
-          className={`relative z-10 ${isTorn ? "drop-shadow-xl" : ""}`}
+          className={`relative z-10 ${isTorn ? "drop-shadow-lg" : ""}`}
         >
           {renderCardContent()}
         </div>
@@ -187,52 +178,22 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
           style={{
             clipPath: clipBottom,
             transform: isTorn
-              ? "translate3d(5px, 32px, 0) rotate(5deg)"
+              ? "translate3d(4px, 28px, 0) rotate(4deg)"
               : "translate3d(0, 0, 0) rotate(0deg)",
             transition: "transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1)",
           }}
-          className={`absolute inset-0 z-10 ${isTorn ? "drop-shadow-xl" : ""}`}
+          className={`absolute inset-0 z-10 ${isTorn ? "drop-shadow-lg" : ""}`}
         >
           {renderCardContent()}
         </div>
 
-        {/* Retakan visual saat tap ke-2 sebelum robek */}
-        {tapCount === 2 && !isTorn && (
-          <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
-            <svg
-              className="w-full h-8 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] animate-pulse"
-              viewBox="0 0 380 40"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeDasharray="4 2"
-            >
-              <path d="M 0 20 L 40 16 L 80 24 L 120 17 L 160 25 L 200 16 L 240 24 L 280 18 L 320 23 L 360 17 L 380 21" />
-            </svg>
-          </div>
-        )}
-
-        {/* Plester Kartun yang Menempel saat Kartu Diperbaiki */}
-        {showPlester && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none animate-in zoom-in-75 duration-300">
-            <div className="bg-amber-200/90 border-2 border-dashed border-amber-500 text-amber-900 font-black text-[11px] px-6 py-2 rounded-md shadow-lg transform -rotate-6 flex items-center gap-1.5 backdrop-blur-xs">
-              <span>🩹</span>
-              <span>TEREKAT KEMBALI!</span>
-            </div>
+        {/* Pita Perekat Transparan Bersih saat Kartu Disatukan Kembali */}
+        {showTape && (
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none animate-in fade-in zoom-in-75 duration-200">
+            <div className="w-24 h-6 bg-white/70 border border-zinc-300/80 rounded-xs shadow-sm transform -rotate-3 backdrop-blur-xs" />
           </div>
         )}
       </div>
-
-      {/* Indikator Tap Halus di Bawah Card */}
-      {!isTorn && (
-        <div className="text-center mt-2 h-4">
-          {tapCount > 0 && (
-            <span className="text-[10px] font-mono text-zinc-400 animate-pulse">
-              {tapCount === 1 ? "👆 Tap lagi untuk merobek (1/3)" : "⚡ Sedikit lagi! (2/3)"}
-            </span>
-          )}
-        </div>
-      )}
     </div>
   );
 }
