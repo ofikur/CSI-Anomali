@@ -161,14 +161,9 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
         ) : (
           /* KONDISI 2: Saat sobek */
           <div className="w-full relative">
-            {/* Tombol Pulihkan di antara celah sobekan */}
+            {/* Area Belakang Celah Sobekan */}
             <div className="absolute inset-0 z-0 flex items-center justify-center p-4">
-              <button
-                onClick={handleFixCard}
-                className="px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-md transition-all active:scale-95 cursor-pointer"
-              >
-                Satukan kembali
-              </button>
+              {/* Slot easter egg baru */}
             </div>
 
             {/* Potongan Sobekan ATAS */}
