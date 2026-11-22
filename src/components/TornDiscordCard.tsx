@@ -12,6 +12,7 @@ interface TornDiscordCardProps {
 export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardProps) {
   const [tapCount, setTapCount] = useState(0);
   const [isTorn, setIsTorn] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
   const [isJittering, setIsJittering] = useState(false);
   const [showTape, setShowTape] = useState(false);
 
@@ -34,7 +35,7 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
 
     const nextCount = tapCount + 1;
     setIsJittering(true);
-    setTimeout(() => setIsJittering(false), 200);
+    setTimeout(() => setIsJittering(false), 180);
 
     if (nextCount >= 3) {
       sounds.playPaperRip();
@@ -49,13 +50,18 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
     }
   };
 
-  // Pulihkan card kembali utuh
+  // Pulihkan card kembali utuh dengan animasi halus
   const handleFixCard = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     sounds.playTapeFix();
-    setShowTape(true);
-    setIsTorn(false);
-    setTapCount(0);
+    setIsRestoring(true);
+
+    setTimeout(() => {
+      setIsTorn(false);
+      setIsRestoring(false);
+      setShowTape(true);
+      setTapCount(0);
+    }, 400);
 
     setTimeout(() => {
       setShowTape(false);
@@ -139,53 +145,61 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
       {/* Container Card */}
       <div
         onClick={handleCardTap}
-        className={`w-full relative cursor-pointer transition-transform duration-300 ${
+        className={`w-full relative cursor-pointer transition-transform duration-200 ${
           isJittering
             ? tapCount === 1
-              ? "scale-[0.99] rotate-[-1deg]"
-              : "scale-[0.97] rotate-[1.5deg]"
+              ? "scale-[0.99] rotate-[-0.8deg]"
+              : "scale-[0.98] rotate-[1.2deg]"
             : "hover:scale-[1.01]"
         }`}
       >
-        {/* Area Belakang (Hanya Tombol Pulihkan Bersih Saat Sobek) */}
-        {isTorn && (
-          <div className="absolute inset-0 z-0 flex items-center justify-center p-4">
-            <button
-              onClick={handleFixCard}
-              className="px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-md transition-all active:scale-95 cursor-pointer"
+        {/* KONDISI 1: Saat utuh (TIDAK ADA garis atau retakan sama sekali) */}
+        {!isTorn ? (
+          <div className="w-full relative z-10">
+            {renderCardContent()}
+          </div>
+        ) : (
+          /* KONDISI 2: Saat sobek */
+          <div className="w-full relative">
+            {/* Tombol Pulihkan di antara celah sobekan */}
+            <div className="absolute inset-0 z-0 flex items-center justify-center p-4">
+              <button
+                onClick={handleFixCard}
+                className="px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-md transition-all active:scale-95 cursor-pointer"
+              >
+                Satukan kembali
+              </button>
+            </div>
+
+            {/* Potongan Sobekan ATAS */}
+            <div
+              style={{
+                clipPath: clipTop,
+                transform: isRestoring
+                  ? "translate3d(0, 0, 0) rotate(0deg)"
+                  : "translate3d(-4px, -28px, 0) rotate(-5deg)",
+                transition: "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+              className="relative z-10 drop-shadow-lg"
             >
-              Satukan kembali
-            </button>
+              {renderCardContent()}
+            </div>
+
+            {/* Potongan Sobekan BAWAH */}
+            <div
+              style={{
+                clipPath: clipBottom,
+                transform: isRestoring
+                  ? "translate3d(0, 0, 0) rotate(0deg)"
+                  : "translate3d(4px, 28px, 0) rotate(4deg)",
+                transition: "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+              className="absolute inset-0 z-10 drop-shadow-lg"
+            >
+              {renderCardContent()}
+            </div>
           </div>
         )}
-
-        {/* Potongan Sobekan ATAS */}
-        <div
-          style={{
-            clipPath: clipTop,
-            transform: isTorn
-              ? "translate3d(-4px, -28px, 0) rotate(-5deg)"
-              : "translate3d(0, 0, 0) rotate(0deg)",
-            transition: "transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          }}
-          className={`relative z-10 ${isTorn ? "drop-shadow-lg" : ""}`}
-        >
-          {renderCardContent()}
-        </div>
-
-        {/* Potongan Sobekan BAWAH */}
-        <div
-          style={{
-            clipPath: clipBottom,
-            transform: isTorn
-              ? "translate3d(4px, 28px, 0) rotate(4deg)"
-              : "translate3d(0, 0, 0) rotate(0deg)",
-            transition: "transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          }}
-          className={`absolute inset-0 z-10 ${isTorn ? "drop-shadow-lg" : ""}`}
-        >
-          {renderCardContent()}
-        </div>
 
         {/* Pita Perekat Transparan Bersih saat Kartu Disatukan Kembali */}
         {showTape && (
