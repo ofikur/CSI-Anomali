@@ -3,7 +3,7 @@ import { ExternalLink, Users } from "lucide-react";
 
 export default function Home() {
   // Ganti URL ini dengan link invite Discord resmi CSI Anomali Anda
-  const discordInviteUrl = "https://discord.gg/csianomali";
+  const discordInviteUrl = "https://discord.gg/abqKgDxBY";
 
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-50 px-4 py-12 text-zinc-900 selection:bg-indigo-100 selection:text-indigo-900">
@@ -31,7 +31,7 @@ export default function Home() {
             {/* Server Info */}
             <div className="text-left overflow-hidden">
               <h2 className="text-base font-semibold text-zinc-900 truncate">
-                Discord CSI Anomali
+                CSI Anomali
               </h2>
               <div className="flex items-center space-x-1.5 text-xs text-zinc-500 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
