@@ -155,17 +155,32 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Footer Note & Tombol Easter Egg Simple */}
-        <div className="flex flex-col items-center space-y-3">
+        {/* Footer Note, Part of Code Squads Informatics & Tombol Easter Egg Simple */}
+        <div className="flex flex-col items-center space-y-3 pt-1">
           <p className="text-xs text-zinc-400">
             Mobile Legends Squad Community
           </p>
+
+          {/* Part of Code Squads Informatics */}
+          <Link
+            href="https://codesquad.my.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-900 transition-colors"
+          >
+            <span>Part of</span>
+            <span className="font-semibold text-zinc-700 group-hover:text-zinc-900 underline decoration-zinc-300 underline-offset-4 group-hover:decoration-zinc-800 transition-colors">
+              Code Squads Informatics
+            </span>
+            <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+          </Link>
 
           {/* Tombol Easter Egg Simple */}
           <button
             onClick={() => setShowEasterEgg(true)}
             className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3 py-1 transition-all shadow-xs cursor-pointer"
           >
+            <span>✨</span>
             <span>Jangan diklik</span>
           </button>
         </div>
