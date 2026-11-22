@@ -116,17 +116,17 @@ export default function Home() {
           </div>
         </h1>
 
-        {/* Discord Card - Clean & Simple with CSI Background */}
-        <div className="w-full relative overflow-hidden rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
-          {/* Background Image: Gambar baru rata kiri, full card */}
+        {/* Discord Card - Clean & Simple with CSI Background & White Gradient */}
+        <div className="w-full relative overflow-hidden rounded-2xl bg-white border border-zinc-200/90 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
+          {/* Background Image: Rata kiri, full card */}
           <img
-            src="/csi-bg.jpg"
+            src="/csi-bg.png"
             alt="CSI Background"
-            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-95 group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-90 group-hover:scale-105 transition-transform duration-500"
           />
 
           {/* Gradient putih ke kanan card */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-white pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/75 to-white pointer-events-none" />
 
           {/* Konten Card (relative z-10) */}
           <div className="relative z-10">
