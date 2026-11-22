@@ -116,25 +116,24 @@ export default function Home() {
           </div>
         </h1>
 
-        {/* Discord Card - Clean & Simple with CSI Background, Glass Effect & White Gradient */}
-        <div className="w-full relative overflow-hidden rounded-2xl bg-white/80 backdrop-blur-md border border-white/80 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
-          {/* Background Image: Rata kiri, full card, opacity 80 */}
+        {/* Discord Card - Clean & Simple with CSI Background & Frosted Glass Gradient */}
+        <div className="w-full relative overflow-hidden rounded-2xl bg-white/70 border border-zinc-200/90 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
+          {/* Background Image: Rata kiri, full card */}
           <img
             src="/csi-bg.png"
             alt="CSI Background"
-            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-80 group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-90 group-hover:scale-105 transition-transform duration-500"
           />
 
-          {/* Gradient putih efek glass ke kanan card */}
+          {/* Base gradient putih ke kanan */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-white/90 pointer-events-none" />
+
+          {/* Frosted Glass Layer dengan progressive backdrop blur ke arah kanan card */}
           <div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-white/85 pointer-events-none"
+            className="absolute inset-0 backdrop-blur-md bg-gradient-to-r from-white/10 via-white/40 to-white/80 pointer-events-none"
             style={{
-              backdropFilter: "blur(6px)",
-              WebkitBackdropFilter: "blur(6px)",
-              maskImage:
-                "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 35%, black 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 35%, black 100%)",
+              maskImage: "linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 30%, black 75%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 30%, black 75%)",
             }}
           />
 
