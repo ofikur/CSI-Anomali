@@ -7,9 +7,13 @@ import { sounds } from "@/lib/soundEffects";
 
 interface TornDiscordCardProps {
   discordInviteUrl: string;
+  onOpenVideo?: () => void;
 }
 
-export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardProps) {
+export default function TornDiscordCard({
+  discordInviteUrl,
+  onOpenVideo,
+}: TornDiscordCardProps) {
   const [tapCount, setTapCount] = useState(0);
   const [isTorn, setIsTorn] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
@@ -161,18 +165,18 @@ export default function TornDiscordCard({ discordInviteUrl }: TornDiscordCardPro
         ) : (
           /* KONDISI 2: Saat sobek */
           <div className="w-full relative">
-            {/* Tombol rahasia di antara celah sobekan yang mengarah ke link YouTube */}
+            {/* Tombol rahasia di antara celah sobekan yang memutar video fullscreen */}
             <div className="absolute inset-0 z-0 flex items-center justify-center p-4">
-              <a
-                href="https://youtu.be/WxC7v3q9AQg?si=c-OjCgUmjWORQM3E"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-md transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenVideo?.();
+                }}
+                className="px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium shadow-md transition-all active:scale-95 cursor-pointer"
               >
                 <span>Buka</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-              </a>
+              </button>
             </div>
 
             {/* Potongan Sobekan ATAS */}

@@ -6,7 +6,7 @@ import { ExternalLink, X } from "lucide-react";
 import TornDiscordCard from "@/components/TornDiscordCard";
 
 export default function Home() {
-  const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const [activePart, setActivePart] = useState<"csi" | "anomali">("csi");
   const [boxStyle, setBoxStyle] = useState({ left: 0, width: 0, top: 0, height: 0 });
 
@@ -56,17 +56,17 @@ export default function Home() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setShowEasterEgg(false);
+        setActiveVideoId(null);
       }
     };
 
-    if (showEasterEgg) {
+    if (activeVideoId) {
       window.addEventListener("keydown", handleKeyDown);
     }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [showEasterEgg]);
+  }, [activeVideoId]);
 
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-50 px-4 py-12 text-zinc-900 selection:bg-indigo-100 selection:text-indigo-900">
@@ -118,7 +118,10 @@ export default function Home() {
         </h1>
 
         {/* Discord Card dengan Animasi Sobek Kartun Interaktif */}
-        <TornDiscordCard discordInviteUrl={discordInviteUrl} />
+        <TornDiscordCard
+          discordInviteUrl={discordInviteUrl}
+          onOpenVideo={() => setActiveVideoId("WxC7v3q9AQg")}
+        />
 
         {/* Footer Note, Part of Code Squads Informatics & Tombol Easter Egg Simple */}
         <div className="flex flex-col items-center space-y-3 pt-1">
@@ -140,9 +143,9 @@ export default function Home() {
             <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
           </Link>
 
-          {/* Tombol Easter Egg Simple (tanpa ikon ✨) */}
+          {/* Tombol Easter Egg Simple (tanpa ikon) */}
           <button
-            onClick={() => setShowEasterEgg(true)}
+            onClick={() => setActiveVideoId("DDwMEp-ItOQ")}
             className="inline-flex items-center text-xs text-zinc-400 hover:text-zinc-600 bg-white hover:bg-zinc-100 border border-zinc-200/80 rounded-full px-3.5 py-1 transition-all shadow-xs cursor-pointer"
           >
             <span>Jangan diklik</span>
@@ -150,12 +153,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Fullscreen Video Rick Roll / Easter Egg */}
-      {showEasterEgg && (
+      {/* Fullscreen Video Easter Egg (Bersih & Loop Berulang) */}
+      {activeVideoId && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden">
           {/* Tombol Tutup Bersih */}
           <button
-            onClick={() => setShowEasterEgg(false)}
+            onClick={() => setActiveVideoId(null)}
             aria-label="Tutup video"
             className="absolute top-5 right-5 z-50 text-white/70 hover:text-white bg-black/60 hover:bg-black/90 backdrop-blur-md p-2.5 rounded-full transition-all cursor-pointer border border-white/10"
           >
@@ -166,7 +169,7 @@ export default function Home() {
           <div className="w-full h-full">
             <iframe
               className="w-full h-full border-0"
-              src="https://www.youtube.com/embed/DDwMEp-ItOQ?autoplay=1&loop=1&playlist=DDwMEp-ItOQ&rel=0"
+              src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&loop=1&playlist=${activeVideoId}&rel=0`}
               title="CSI Anomali Easter Egg"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
