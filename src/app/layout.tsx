@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CSI ANOMALI // [RESTRICTED .ONION GATEWAY] - Road to MPL",
+  title: "CSI-TUBE 🎮 Portal Video Blunder & Fail MLBB CSI Anomali (Road to MPL)",
   description:
-    "Classified darknet dossier & surveillance gateway for CSI Anomali Squad MLBB. Road to MPL (Mobile Legends Plenger League). Threat level: Maximum Feeder.",
+    "Portal streaming klip Mobile Legends terlucu & ter-anomali! Koleksi retri indomaret, fanny darat, layla tank, lose streak 37x. Just for Fun!",
 };
 
 export default function RootLayout({
@@ -13,16 +13,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="dark bg-[#030708]">
+    <html lang="id">
       <head>
         <link
           rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧅</text></svg>"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>"
         />
       </head>
-      <body className="min-h-screen bg-[#030708] text-[#00ff66] antialiased selection:bg-[#ff003c] selection:text-white">
-        {/* CRT Scanline Overlay across entire viewport */}
-        <div className="fixed inset-0 scanlines pointer-events-none z-50 opacity-70" />
+      <body className="min-h-screen bg-[#0c1626] text-slate-200">
         {children}
       </body>
     </html>

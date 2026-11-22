@@ -1,266 +1,283 @@
 "use client";
 
-import React, { useState } from "react";
-import TorHeader from "@/components/TorHeader";
-import InteractiveTerminal from "@/components/InteractiveTerminal";
-import OperativesDossier from "@/components/OperativesDossier";
-import SurveillanceCCTV from "@/components/SurveillanceCCTV";
-import DarkMarketBazaar from "@/components/DarkMarketBazaar";
-import DarknetKTBGenerator from "@/components/DarknetKTBGenerator";
-import ClassificationArchive from "@/components/ClassificationArchive";
-import UndergroundShoutbox from "@/components/UndergroundShoutbox";
-import { cyberSounds } from "@/lib/soundEffects";
-import {
-  ShieldAlert,
-  Terminal,
-  Activity,
-  Zap,
-  Radio,
-  FileWarning,
-  Flame,
-  Binary,
-  Lock,
-  Skull,
-  Eye,
-  Sparkles,
-} from "lucide-react";
+import React, { useState, useMemo } from "react";
+import TubeHeader from "@/components/TubeHeader";
+import TubeCategoryBar from "@/components/TubeCategoryBar";
+import VideoCard from "@/components/VideoCard";
+import VideoPlayerModal from "@/components/VideoPlayerModal";
+import TubeSidebar from "@/components/TubeSidebar";
+import UploadModal from "@/components/UploadModal";
+import { VIDEOS, VideoItem } from "@/lib/videoData";
+import { sounds } from "@/lib/soundEffects";
+import { Flame, Play, Sparkles, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
 
 export default function Home() {
-  const [showLeakModal, setShowLeakModal] = useState(false);
-  const [retriStatus, setRetriStatus] = useState<string | null>(null);
+  const [videoList, setVideoList] = useState<VideoItem[]>(VIDEOS);
+  const [selectedCategory, setSelectedCategory] = useState("Semua Klip");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const handleRetriAction = () => {
-    cyberSounds.playRetriGlitch();
-    setRetriStatus("RETRI EXECUTED ON KELOMANG! ENEMY SECURED LORD!");
-    setTimeout(() => setRetriStatus(null), 3500);
+  // Filter video berdasarkan pencarian dan kategori
+  const filteredVideos = useMemo(() => {
+    return videoList.filter((v) => {
+      const matchCat =
+        selectedCategory === "Semua Klip" ||
+        v.category.toLowerCase().includes(selectedCategory.toLowerCase()) ||
+        v.title.toLowerCase().includes(selectedCategory.toLowerCase());
+
+      const matchSearch =
+        !searchQuery.trim() ||
+        v.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.uploader.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+      return matchCat && matchSearch;
+    });
+  }, [videoList, selectedCategory, searchQuery]);
+
+  const handleUploadSuccess = (newVid: VideoItem) => {
+    setVideoList([newVid, ...videoList]);
   };
 
-  const handleRecallTas = () => {
-    cyberSounds.playDigitalRecall();
-  };
-
-  const handleOpenLeak = () => {
-    cyberSounds.playGlitchBurst();
-    setShowLeakModal(true);
-  };
+  const featuredVideo = videoList[0];
 
   return (
-    <main className="min-h-screen bg-[#030708] text-[#00ff66] cyber-grid relative font-mono selection:bg-[#ff003c] selection:text-white">
-      {/* Tor Onion Address & Circuit Header */}
-      <TorHeader />
+    <div className="min-h-screen bg-[#0c1626] text-slate-200 flex flex-col font-sans">
+      {/* Header Utama Tube */}
+      <TubeHeader
+        onSearch={(query) => {
+          setSearchQuery(query);
+          setSelectedCategory("Semua Klip");
+        }}
+        onUploadClick={() => setShowUploadModal(true)}
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12">
-        {/* Hero Section: The Anomali Darknet Core */}
-        <section className="relative bg-[#050a0e] border border-[#173a25] p-6 sm:p-10 shadow-[0_0_35px_rgba(0,255,102,0.08)] overflow-hidden">
-          {/* Subtle Ambient Red Alert Glow in Background */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#ff003c]/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#00ff66]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Bar Kategori Tagar */}
+      <TubeCategoryBar
+        selectedCategory={selectedCategory}
+        onSelectCategory={(cat) => {
+          setSelectedCategory(cat);
+          setSearchQuery("");
+        }}
+      />
 
-          {/* Top Status Badges */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#142d1f] pb-4 mb-6 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping inline-block" />
-              <span className="text-[#ff003c] font-black tracking-widest uppercase">
-                THREAT DESIGNATION: UNCONTAINED FEEDER ENTITY
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 text-zinc-500 text-[11px]">
-              <span className="bg-[#0b1820] border border-[#173623] px-2 py-0.5 text-zinc-300">
-                HOST: 127.0.0.1:PLENGER
-              </span>
-              <span className="bg-[#0b1820] border border-[#173623] px-2 py-0.5 text-emerald-400">
-                STATUS: DEGRADED
-              </span>
-            </div>
-          </div>
-
-          {/* Title & Glitch Heading */}
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-red-950/40 border border-[#ff003c]/50 text-[#ff003c] text-xs font-bold">
-              <ShieldAlert className="w-4 h-4 animate-pulse" />
-              <span>PROJECT CODE: OPERATION INFINITE LOSE STREAK</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-7xl font-black tracking-tight text-white glow-green animate-glitch uppercase">
-              CSI ANOMALI
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <span className="text-xl sm:text-3xl font-black text-amber-400 font-mono tracking-wider">
-                ROAD TO MPL
-              </span>
-              <span className="text-sm sm:text-base font-bold text-red-500 bg-black/80 px-2 py-0.5 border border-red-900/60 uppercase">
-                (MOBILE LEGENDS PLENGER LEAGUE)
-              </span>
-            </div>
-
-            <p className="text-xs sm:text-sm text-zinc-400 max-w-3xl leading-relaxed pt-2">
-              Dokumentasi intelijen bawah tanah dan dossier rahasia dari squad MLBB paling meresahkan.
-              Menang adalah anomali langka, kalah adalah tradisi operasi, dan surrender menit ke-3 adalah doktrin utama kami. Just for fun.
-            </p>
-          </div>
-
-          {/* Retri Status Alert Notification */}
-          {retriStatus && (
-            <div className="mt-4 p-3 bg-[#ff003c]/20 border border-[#ff003c] text-[#ff003c] text-xs font-bold animate-pulse">
-              [!] {retriStatus}
-            </div>
-          )}
-
-          {/* Action Control Buttons */}
-          <div className="flex flex-wrap gap-3 pt-6 border-t border-[#142d1f] mt-6">
-            <button
-              onClick={handleRetriAction}
-              className="bg-[#ff003c]/20 hover:bg-[#ff003c]/30 border border-[#ff003c] text-white font-mono text-xs px-4 py-2.5 font-bold transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(255,0,60,0.2)]"
-            >
-              <Zap className="w-4 h-4 text-[#ff003c] animate-bounce" />
-              <span>TEST RETRI (MISS GUARANTEED)</span>
-            </button>
-
-            <button
-              onClick={handleRecallTas}
-              className="bg-[#0b1c13] hover:bg-[#122c1f] border border-[#00ff66] text-[#00ff66] font-mono text-xs px-4 py-2.5 font-bold transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,102,0.15)]"
-            >
-              <Radio className="w-4 h-4 text-[#00ff66] animate-pulse" />
-              <span>BROADCAST RECALL (TAS-TAS-TAS)</span>
-            </button>
-
-            <button
-              onClick={handleOpenLeak}
-              className="bg-[#0b1720] hover:bg-[#112433] border border-amber-400/50 text-amber-400 font-mono text-xs px-4 py-2.5 font-bold transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <FileWarning className="w-4 h-4 text-amber-400" />
-              <span>LEAK MOONTON MEMO</span>
-            </button>
-          </div>
-
-          {/* Telemetry Indicator Metrics Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 mt-6 border-t border-[#142d1f]/60 text-xs">
-            <div className="bg-[#030608] border border-[#112419] p-3">
-              <span className="text-[10px] text-zinc-500 uppercase block">MYTHIC STARS:</span>
-              <span className="text-xl font-bold text-red-500 font-mono">0 ⭐</span>
-              <span className="text-[9px] text-zinc-500 block mt-0.5">Depleted completely</span>
-            </div>
-
-            <div className="bg-[#030608] border border-[#112419] p-3">
-              <span className="text-[10px] text-zinc-500 uppercase block">STARS LOST:</span>
-              <span className="text-xl font-bold text-amber-400 font-mono">-184 ⭐</span>
-              <span className="text-[9px] text-zinc-500 block mt-0.5">Historical derank</span>
-            </div>
-
-            <div className="bg-[#030608] border border-[#112419] p-3">
-              <span className="text-[10px] text-zinc-500 uppercase block">RETRI FAIL RATE:</span>
-              <span className="text-xl font-bold text-[#ff003c] font-mono">99.8%</span>
-              <span className="text-[9px] text-zinc-500 block mt-0.5">Kelomang priority</span>
-            </div>
-
-            <div className="bg-[#030608] border border-[#112419] p-3">
-              <span className="text-[10px] text-zinc-500 uppercase block">ROUTER PING:</span>
-              <span className="text-xl font-bold text-cyan-400 font-mono">999ms</span>
-              <span className="text-[9px] text-zinc-500 block mt-0.5">Tor routed lag</span>
-            </div>
-          </div>
-        </section>
-
-        {/* Interactive Hacker Terminal */}
-        <InteractiveTerminal />
-
-        {/* Classified Operatives Dossiers */}
-        <OperativesDossier />
-
-        {/* Live Darknet CCTV Surveillance Feed */}
-        <SurveillanceCCTV />
-
-        {/* Underground Dark Market (Silk Road MLBB Parody) */}
-        <DarkMarketBazaar />
-
-        {/* Darknet Operative Clearance Card Generator (KTB Forge) */}
-        <DarknetKTBGenerator />
-
-        {/* Classification Archive: Match Incidents & Standings */}
-        <ClassificationArchive />
-
-        {/* Encrypted Onion Wiretap Shoutbox */}
-        <UndergroundShoutbox />
-
-        {/* Darknet Footer */}
-        <footer className="border-t border-[#142d1f] pt-8 pb-12 font-mono text-xs text-zinc-500 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🧅</span>
-              <span className="text-zinc-400 font-bold">CSI ANOMALI CLASSIFIED GATEWAY</span>
-            </div>
-            <div className="flex items-center gap-3 text-[11px]">
-              <span className="text-emerald-500">TOR V3 PROTOCOL</span>
-              <span>•</span>
-              <span className="text-zinc-400">OPENSOURCE ASSETS</span>
-              <span>•</span>
-              <span className="text-amber-500">JUST FOR FUN</span>
-            </div>
-          </div>
-
-          <p className="text-[11px] text-zinc-600 leading-relaxed">
-            [PENAFIAN PARODI] Seluruh konten di situs ini merupakan karya parodi komedi untuk squad Mobile Legends &quot;CSI Anomali&quot; dalam Road to MPL (Mobile Legends Plenger League).
-            Tidak ada koneksi ilegal nyata ke darknet; seluruh data disimulasikan menggunakan client-side Web Audio API dan Next.js Tailwind CSS.
-          </p>
-
-          <div className="text-[10px] text-zinc-700 flex justify-between items-center border-t border-zinc-900 pt-3">
-            <span>PGP ROOT KEY: 0xDEADBEEF420_CSI_ANOMALI</span>
-            <span>BUILD: NEXT.JS 16 // TURBOPACK // DARKWEB THEME</span>
-          </div>
-        </footer>
-      </div>
-
-      {/* Leaked Moonton Memo Modal */}
-      {showLeakModal && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#050a0e] border border-[#ff003c]/60 max-w-lg w-full p-6 text-zinc-300 font-mono shadow-[0_0_40px_rgba(255,0,60,0.3)] relative">
-            <div className="flex items-center justify-between border-b border-zinc-800 pb-3 mb-4">
-              <div className="flex items-center gap-2 text-[#ff003c]">
-                <FileWarning className="w-5 h-5 animate-pulse" />
-                <h3 className="text-sm font-bold tracking-widest uppercase">
-                  CLASSIFIED LEAK // MOONTON SECURITY REPORT
-                </h3>
-              </div>
-              <button
-                onClick={() => setShowLeakModal(false)}
-                className="text-zinc-500 hover:text-white text-xs cursor-pointer"
+      {/* Konten Utama */}
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-5 flex-1 w-full space-y-6">
+        {/* Banner Utama / Featured Match of The Day */}
+        {selectedCategory === "Semua Klip" && !searchQuery && (
+          <div
+            onClick={() => {
+              sounds.playRecallSpam();
+              setActiveVideo(featuredVideo);
+            }}
+            className="group relative bg-[#09121f] border border-[#1b2d49] hover:border-blue-500/60 rounded-lg overflow-hidden cursor-pointer shadow-lg transition-all"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3">
+              <div
+                className={`relative aspect-video md:aspect-auto bg-gradient-to-br ${featuredVideo.thumbnailColor} flex items-center justify-center p-6`}
               >
-                [CLOSE]
+                <span className="text-6xl sm:text-7xl transform group-hover:scale-110 transition-transform">
+                  {featuredVideo.heroIcon}
+                </span>
+                <div className="absolute top-2 left-2 bg-red-600 text-white font-black text-[10px] px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1 shadow">
+                  <Flame className="w-3 h-3 animate-pulse" />
+                  Klip Terpanas Hari Ini
+                </div>
+                <div className="absolute bottom-2 right-2 bg-black/90 text-white font-mono text-xs px-2 py-0.5 rounded">
+                  {featuredVideo.duration}
+                </div>
+              </div>
+
+              <div className="p-4 sm:p-5 md:col-span-2 flex flex-col justify-between space-y-3 bg-[#0d1829]">
+                <div>
+                  <div className="flex items-center gap-2 text-xs text-blue-400 font-bold mb-1">
+                    <span>{featuredVideo.category}</span>
+                    <span>•</span>
+                    <span className="text-slate-400">{featuredVideo.views} views</span>
+                    <span>•</span>
+                    <span className="text-green-400">{featuredVideo.rating}% Kepuasan</span>
+                  </div>
+                  <h2 className="text-base sm:text-xl font-black text-white group-hover:text-blue-400 transition-colors leading-tight">
+                    {featuredVideo.title}
+                  </h2>
+                  <p className="text-xs text-slate-300 mt-2 line-clamp-2 leading-relaxed">
+                    {featuredVideo.description}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-[#182b47] text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{featuredVideo.avatar}</span>
+                    <span className="font-bold text-slate-200">
+                      {featuredVideo.uploader}
+                    </span>
+                    <span className="text-slate-400">({featuredVideo.uploaderRole})</span>
+                  </div>
+                  <button className="bg-[#0066cc] group-hover:bg-[#0077ee] text-white px-3.5 py-1.5 rounded font-bold flex items-center gap-1.5 transition-colors cursor-pointer">
+                    <Play className="w-3.5 h-3.5 fill-white" />
+                    Putar Sekarang
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Layout 2 Kolom: Grid Video + Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+          {/* Kolom Video Grid (3 Kolom) */}
+          <div className="lg:col-span-3 space-y-4">
+            {/* Header Bagian Video */}
+            <div className="flex items-center justify-between border-b border-[#182b47] pb-2">
+              <h2 className="text-sm sm:text-base font-bold text-slate-100 flex items-center gap-2">
+                <span>
+                  {searchQuery
+                    ? `Hasil Pencarian: "${searchQuery}"`
+                    : selectedCategory === "Semua Klip"
+                    ? "Semua Klip Blunder & Fail Terbaru"
+                    : `Kategori: ${selectedCategory}`}
+                </span>
+                <span className="text-xs font-mono text-slate-400">
+                  ({filteredVideos.length} video)
+                </span>
+              </h2>
+
+              <div className="text-xs text-slate-400 hidden sm:flex items-center gap-1">
+                <span>Urutkan:</span>
+                <span className="text-blue-400 font-bold cursor-pointer">Paling Banyak Dihujat ▼</span>
+              </div>
+            </div>
+
+            {/* Grid Video */}
+            {filteredVideos.length === 0 ? (
+              <div className="bg-[#0d1829] border border-[#1b2d49] rounded p-8 text-center space-y-2">
+                <AlertCircle className="w-10 h-10 text-yellow-400 mx-auto animate-bounce" />
+                <h3 className="text-base font-bold text-white">Tidak Ada Video yang Cocok</h3>
+                <p className="text-xs text-slate-400">
+                  Coba cari dengan kata kunci lain seperti &quot;fanny&quot;, &quot;retri&quot;, &quot;layla&quot;, atau klik salah satu tag di atas.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {filteredVideos.map((video) => (
+                  <VideoCard
+                    key={video.id}
+                    video={video}
+                    onSelect={(v) => setActiveVideo(v)}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Classic Tube Pagination */}
+            <div className="pt-6 pb-2 flex flex-wrap items-center justify-center gap-1.5 text-xs font-bold select-none">
+              <button
+                onClick={() => {
+                  sounds.playRecallSpam();
+                  setCurrentPage((p) => Math.max(1, p - 1));
+                }}
+                className="px-2.5 py-1.5 bg-[#101e33] hover:bg-[#192f52] text-slate-300 rounded border border-[#1e365b] flex items-center gap-1 cursor-pointer"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                Sebelumnya
+              </button>
+
+              {[1, 2, 3, 4, 5].map((num) => (
+                <button
+                  key={num}
+                  onClick={() => {
+                    sounds.playRecallSpam();
+                    setCurrentPage(num);
+                  }}
+                  className={`w-8 h-8 rounded flex items-center justify-center cursor-pointer transition-colors ${
+                    currentPage === num
+                      ? "bg-[#0066cc] text-white font-extrabold"
+                      : "bg-[#101e33] hover:bg-[#192f52] text-slate-300 border border-[#1e365b]"
+                  }`}
+                >
+                  {num}
+                </button>
+              ))}
+
+              <span className="px-2 text-slate-500">...</span>
+              <button
+                onClick={() => {
+                  sounds.playRecallSpam();
+                  setCurrentPage(69);
+                }}
+                className="w-8 h-8 rounded flex items-center justify-center bg-[#101e33] hover:bg-[#192f52] text-slate-300 border border-[#1e365b] cursor-pointer"
+              >
+                69
+              </button>
+
+              <button
+                onClick={() => {
+                  sounds.playRecallSpam();
+                  setCurrentPage((p) => p + 1);
+                }}
+                className="px-2.5 py-1.5 bg-[#101e33] hover:bg-[#192f52] text-slate-300 rounded border border-[#1e365b] flex items-center gap-1 cursor-pointer"
+              >
+                Selanjutnya
+                <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
+          </div>
 
-            <div className="space-y-3 text-xs leading-relaxed text-zinc-300">
-              <div className="bg-black/60 p-3 border border-zinc-800 text-[11px] space-y-1">
-                <div>DOKUMEN: #LEAK-2026-PLENGER-09</div>
-                <div>TANGGAL: 22 NOVEMBER 2026</div>
-                <div>KLASIFIKASI: SANGAT RAHASIA (EYES ONLY)</div>
-              </div>
-
-              <p>
-                Berdasarkan pantauan satelit AI Moonton, squad <strong>CSI Anomali</strong> telah terdeteksi melakukan sabotase terstruktur terhadap integritas match rank.
-              </p>
-              <p>
-                Pada match ke-38 berturut-turut, Fanny sekutu dilaporkan meluncur dengan 2 kabel, menabrak tembok buff biru, dan langsung surrender saat lord baru saja spawn.
-              </p>
-              <div className="bg-[#ff003c]/10 border-l-2 border-[#ff003c] p-2 text-[#ff003c] text-[11px]">
-                REKOMENDASI DEPARTEMEN: Wajibkan seluruh anggota squad push rank di mode bot mudah hingga tahun 2035.
-              </div>
-            </div>
-
-            <button
-              onClick={() => {
-                cyberSounds.playKeyClick();
-                setShowLeakModal(false);
+          {/* Kolom Sidebar (1 Kolom) */}
+          <div className="lg:col-span-1">
+            <TubeSidebar
+              onTagClick={(tag) => {
+                setSearchQuery(tag);
+                setSelectedCategory("Semua Klip");
               }}
-              className="mt-5 w-full bg-[#12222e] hover:bg-[#1a3244] border border-cyan-400 text-cyan-400 py-2 text-xs font-bold transition-colors cursor-pointer"
-            >
-              TUTUP BERKAS INTELIJEN
-            </button>
+            />
           </div>
         </div>
+      </main>
+
+      {/* Footer Classic Tube */}
+      <footer className="w-full bg-[#08101d] border-t border-[#17273d] py-6 px-4 text-xs text-slate-400 mt-10">
+        <div className="max-w-7xl mx-auto space-y-3 text-center">
+          <div className="flex flex-wrap justify-center items-center gap-4 text-slate-300 font-medium">
+            <span className="hover:text-blue-400 cursor-pointer">Tentang CSI Anomali</span>
+            <span>•</span>
+            <span className="hover:text-blue-400 cursor-pointer">Jadwal Plenger League</span>
+            <span>•</span>
+            <span className="hover:text-blue-400 cursor-pointer">Syarat Masuk Squad (WR &lt; 40%)</span>
+            <span>•</span>
+            <span className="hover:text-blue-400 cursor-pointer">Kontak Warnet Pos Ronda</span>
+            <span>•</span>
+            <span className="hover:text-blue-400 cursor-pointer">Kebijakan Anti-Surrender</span>
+          </div>
+
+          <p className="text-[11px] text-slate-400">
+            ⚠️ Disclaimer: Website ini adalah parodi murni bertema portal video untuk squad Mobile Legends: Bang Bang &quot;CSI Anomali - Road to MPL&quot;. Dibuat 100% just for fun, humor, dan hiburan komunitas gamer tanpa muatan konten dewasa.
+          </p>
+
+          <p className="text-[10px] text-slate-400 font-mono">
+            © 2026 CSI-TUBE • Powered by Next.js 16 & Tailwind CSS • Lose Streak 37x Berkelanjutan.
+          </p>
+        </div>
+      </footer>
+
+      {/* Modal Video Player Interaktif */}
+      {activeVideo && (
+        <VideoPlayerModal
+          video={activeVideo}
+          onClose={() => setActiveVideo(null)}
+          onSelectVideo={(v) => setActiveVideo(v)}
+        />
       )}
-    </main>
+
+      {/* Modal Upload Blunder */}
+      {showUploadModal && (
+        <UploadModal
+          onClose={() => setShowUploadModal(false)}
+          onSuccess={handleUploadSuccess}
+        />
+      )}
+    </div>
   );
 }

@@ -6,131 +6,24 @@
   }
 }
 
-:root {
-  --bg-primary: #030708;
-  --bg-secondary: #070d10;
-  --bg-card: #0a1117;
-  --neon-green: #00ff66;
-  --neon-red: #ff003c;
-  --neon-cyan: #00f0ff;
-  --neon-amber: #ffaa00;
-  --terminal-dim: #1e3a2b;
-}
-
 body {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  background-color: var(--bg-primary);
-  color: #00ff66;
+  background-color: #0c1626;
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow-x: hidden;
-  position: relative;
 }
 
-/* CRT Scanlines Overlay */
-.scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.45) 50%
-  ), linear-gradient(
-    90deg,
-    rgba(255, 0, 0, 0.03),
-    rgba(0, 255, 0, 0.01),
-    rgba(0, 0, 255, 0.03)
-  );
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-}
-
-/* Matrix & Cyber Grid */
-.cyber-grid {
-  background-image: linear-gradient(to right, rgba(0, 255, 102, 0.05) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.cyber-grid-red {
-  background-image: linear-gradient(to right, rgba(255, 0, 60, 0.08) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 0, 60, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* Glowing Neon Utilities */
-.glow-green {
-  text-shadow: 0 0 8px rgba(0, 255, 102, 0.7), 0 0 16px rgba(0, 255, 102, 0.4);
-}
-
-.glow-red {
-  text-shadow: 0 0 8px rgba(255, 0, 60, 0.8), 0 0 20px rgba(255, 0, 60, 0.5);
-}
-
-.glow-cyan {
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.8), 0 0 18px rgba(0, 240, 255, 0.4);
-}
-
-.box-glow-green {
-  box-shadow: 0 0 15px rgba(0, 255, 102, 0.2), inset 0 0 15px rgba(0, 255, 102, 0.05);
-}
-
-.box-glow-red {
-  box-shadow: 0 0 20px rgba(255, 0, 60, 0.25), inset 0 0 15px rgba(255, 0, 60, 0.1);
-}
-
-.box-glow-cyan {
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25), inset 0 0 15px rgba(0, 240, 255, 0.05);
-}
-
-/* Glitch Animations */
-@keyframes glitch-skew {
-  0% { transform: skew(0deg); }
-  20% { transform: skew(-2deg); }
-  40% { transform: skew(1.5deg); }
-  60% { transform: skew(-1deg); }
-  80% { transform: skew(2deg); }
-  100% { transform: skew(0deg); }
-}
-
-@keyframes radar-sweep {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes terminal-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-@keyframes pulse-red {
-  0%, 100% { border-color: rgba(255, 0, 60, 0.4); }
-  50% { border-color: rgba(255, 0, 60, 1); box-shadow: 0 0 20px rgba(255, 0, 60, 0.4); }
-}
-
-.animate-glitch {
-  animation: glitch-skew 2.5s infinite ease-in-out;
-}
-
-.animate-radar {
-  animation: radar-sweep 4s infinite linear;
-}
-
-.cursor-blink {
-  animation: terminal-blink 1s infinite;
-}
-
-.border-pulse-red {
-  animation: pulse-red 2s infinite ease-in-out;
-}
-
-/* Custom Cyber Scrollbar */
+/* Custom Tube Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #030708;
-  border-left: 1px solid #1e3a2b;
+  background: #080f1a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00ff66;
-  border-radius: 0px;
+  background: #1e3a5f;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff003c;
+  background: #2b5284;
 }
