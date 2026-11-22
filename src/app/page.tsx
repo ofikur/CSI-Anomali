@@ -4,9 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ExternalLink, X } from "lucide-react";
 import TornDiscordCard from "@/components/TornDiscordCard";
+import AnomalyCharacter from "@/components/AnomalyCharacter";
 
 export default function Home() {
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
+  const [anomalies, setAnomalies] = useState<{ id: number; variantIndex: number }[]>([]);
   const [activePart, setActivePart] = useState<"csi" | "anomali">("csi");
   const [boxStyle, setBoxStyle] = useState({ left: 0, width: 0, top: 0, height: 0 });
 
@@ -104,10 +106,25 @@ export default function Home() {
               csi
             </span>
 
-            {/* Bagian anomali (rapat berdampingan langsung dengan csi) */}
+            {/* Bagian anomali (klik saat kotak aktif memunculkan hingga 7 anomali berbeda) */}
             <span
               ref={anomaliRef}
-              onClick={() => setActivePart("anomali")}
+              onClick={() => {
+                if (activePart === "anomali") {
+                  setAnomalies((prev) => {
+                    if (prev.length >= 7) return prev;
+                    return [
+                      ...prev,
+                      {
+                        id: Date.now() + Math.random(),
+                        variantIndex: prev.length,
+                      },
+                    ];
+                  });
+                } else {
+                  setActivePart("anomali");
+                }
+              }}
               className={`relative z-10 transition-colors duration-500 cursor-pointer select-none ${
                 activePart === "anomali" ? "text-white" : "text-zinc-900 hover:text-black"
               }`}
@@ -152,6 +169,11 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      {/* Kumpulan Karakter Anomali 2D yang Berjalan Keliling Layar (Maksimal 7 Karakter Unik) */}
+      {anomalies.map((a) => (
+        <AnomalyCharacter key={a.id} variantIndex={a.variantIndex} />
+      ))}
 
       {/* Fullscreen Video Easter Egg (Bersih & Loop Berulang) */}
       {activeVideoId && (
