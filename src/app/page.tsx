@@ -118,11 +118,11 @@ export default function Home() {
 
         {/* Discord Card - Clean & Simple with CSI Background */}
         <div className="w-full relative overflow-hidden rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
-          {/* Background Image: Lebih ke kiri tapi tetap full card */}
+          {/* Background Image: Gambar baru rata kiri, full card */}
           <img
-            src="/csi-bg.png"
+            src="/csi-bg.jpg"
             alt="CSI Background"
-            className="absolute inset-y-0 left-0 w-[135%] h-full max-w-none object-cover object-left -translate-x-16 pointer-events-none opacity-90 group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-95 group-hover:scale-105 transition-transform duration-500"
           />
 
           {/* Gradient putih ke kanan card */}
