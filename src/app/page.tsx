@@ -125,15 +125,15 @@ export default function Home() {
             className="absolute inset-0 w-full h-full object-cover object-left pointer-events-none opacity-90 group-hover:scale-105 transition-transform duration-500"
           />
 
-          {/* Base gradient putih ke kanan */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-white/90 pointer-events-none" />
+          {/* Base gradient putih ke kanan - pekat di area teks */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent from-5% via-white/85 via-35% to-white pointer-events-none" />
 
           {/* Frosted Glass Layer dengan progressive backdrop blur ke arah kanan card */}
           <div
-            className="absolute inset-0 backdrop-blur-md bg-gradient-to-r from-white/10 via-white/40 to-white/80 pointer-events-none"
+            className="absolute inset-0 backdrop-blur-md bg-gradient-to-r from-white/20 via-white/70 via-35% to-white/95 pointer-events-none"
             style={{
-              maskImage: "linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 30%, black 75%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 30%, black 75%)",
+              maskImage: "linear-gradient(to right, transparent 5%, black 35%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 5%, black 35%)",
             }}
           />
 
@@ -141,7 +141,7 @@ export default function Home() {
           <div className="relative z-10">
             <div className="flex items-center space-x-4 mb-5">
               {/* Discord Icon */}
-              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-sm">
+              <div className="w-12 h-12 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-md">
                 <svg
                   className="w-7 h-7"
                   viewBox="0 0 127.14 96.36"
@@ -152,12 +152,12 @@ export default function Home() {
                 </svg>
               </div>
 
-              {/* Server Info */}
+              {/* Server Info - High Contrast & Jelas */}
               <div className="text-left overflow-hidden">
-                <h2 className="text-base font-semibold text-zinc-900 truncate">
+                <h2 className="text-base sm:text-lg font-bold text-zinc-950 truncate tracking-tight drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
                   CSI Anomali
                 </h2>
-                <div className="flex items-center space-x-1.5 text-xs text-zinc-500 mt-0.5">
+                <div className="flex items-center space-x-1.5 text-xs text-zinc-700 font-semibold mt-0.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)]">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
                   <span>Komunitas Resmi</span>
                 </div>
