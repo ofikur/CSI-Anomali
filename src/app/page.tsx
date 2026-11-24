@@ -239,7 +239,7 @@ export default function Home() {
 
       {/* Fullscreen Video Easter Egg (Bersih & Loop Berulang) */}
       {activeVideoId && (
-        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden">
+        <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden">
           {/* Tombol Tutup Bersih */}
           <button
             onClick={() => setActiveVideoId(null)}

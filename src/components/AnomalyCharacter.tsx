@@ -281,26 +281,28 @@ export default function AnomalyCharacter({
       data-anomaly-id={id}
       style={{
         transform: devourTarget
-          ? `translate3d(${devourTarget.mouthX - 32}px, ${devourTarget.mouthY - 40}px, 0) scale(0.05) rotate(${
-              direction === 1 ? 40 : -40
+          ? `translate3d(${devourTarget.mouthX - 32}px, ${devourTarget.mouthY - 40}px, 0) scale(0.04) rotate(${
+              direction === 1 ? 55 : -55
             }deg)`
           : `translate3d(${pos.x}px, ${pos.y}px, 0)`,
         opacity: devourTarget ? 0 : 1,
         transition: devourTarget
-          ? "transform 0.35s cubic-bezier(0.2, 0.8, 0.4, 1), opacity 0.3s ease-in"
+          ? "transform 0.26s cubic-bezier(0.4, 0, 0.8, 0.2), opacity 0.22s ease-in"
           : isJumping
           ? "transform 0.2s ease-out"
           : "none",
       }}
-      className={`anomaly-entity fixed top-0 left-0 z-40 select-none pointer-events-auto cursor-pointer ${
+      className={`anomaly-entity fixed top-0 left-0 z-50 select-none pointer-events-auto cursor-pointer ${
         devourTarget ? "pointer-events-none" : ""
       }`}
       onClick={handleCharacterClick}
     >
       <div
         style={{
-          transform: `scaleX(${direction}) scale(${v.scale}) ${isJumping ? "translateY(-30px) rotate(15deg)" : ""}`,
-          transition: "transform 0.25s ease-in-out",
+          transform: devourTarget
+            ? `scaleX(${direction * 0.5}) scaleY(1.5) rotate(10deg)`
+            : `scaleX(${direction}) scale(${v.scale}) ${isJumping ? "translateY(-30px) rotate(15deg)" : ""}`,
+          transition: devourTarget ? "transform 0.24s ease-in" : "transform 0.25s ease-in-out",
         }}
         className="relative flex flex-col items-center"
       >
